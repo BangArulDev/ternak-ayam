@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta name="theme-color" content="#059669" />
+    <title>Dashboard - AyamPintar</title>
+
+    <!-- CSS Bundled via Webpack -->
+
+    <style>
+      :root {
+        --primary-gradient: linear-gradient(135deg, #059669 0%, #10b981 100%);
+        --primary-color: #059669;
+        --bg-light: #f3f4f6;
+        --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      }
+
+      body {
+        background: var(--bg-light);
+        font-family: "Poppins", sans-serif;
+        padding-bottom: 100px;
+        color: #1f2937;
+      }
+
+      /* HEADER SECTION */
+      .mobile-header {
+        background: var(--primary-gradient);
+        padding: 20px 20px 60px 20px;
+        color: white;
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+        position: relative;
+        z-index: 1;
+        box-shadow: 0 4px 15px rgba(5, 150, 105, 0.2);
+      }
+
+      .header-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .header-info h2 {
+        font-weight: 700;
+        font-size: 1.5rem;
+        margin: 0;
+      }
+
+      .header-chip {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(5px);
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        display: inline-block;
+        margin-top: 8px;
+      }
+
+      /* MAIN CONTENT OVERLAP */
+      .content-overlap {
+        margin-top: -40px;
+        padding: 0 20px;
+        position: relative;
+        z-index: 2;
+      }
+
+      /* STAT CARDS */
+      .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      .stat-card {
+        background: white;
+        border-radius: 20px;
+        padding: 16px;
+        box-shadow: var(--card-shadow);
+        transition: transform 0.2s;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .stat-card:active {
+        transform: scale(0.98);
+      }
+
+      .stat-icon {
+        position: absolute;
+        right: -10px;
+        bottom: -10px;
+        font-size: 3rem;
+        opacity: 0.05;
+        color: var(--primary-color);
+      }
+
+      .stat-label {
+        font-size: 0.75rem;
+        color: #6b7280;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .stat-value {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-top: 2px;
+        color: #111827;
+      }
+
+      /* OMZET CARD */
+      .omzet-card {
+        background: linear-gradient(135deg, #1e293b, #334155);
+        color: white;
+        border-radius: 20px;
+        padding: 20px;
+        margin-bottom: 25px;
+        box-shadow: 0 10px 25px rgba(30, 41, 59, 0.3);
+      }
+
+      /* ACTION GRID */
+      .action-section-title {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+        color: #374151;
+        display: flex;
+        align-items: center;
+      }
+
+      .action-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-bottom: 25px;
+      }
+
+      .action-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: #4b5563;
+      }
+
+      .action-btn-circle {
+        width: 56px;
+        height: 56px;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        margin-bottom: 8px;
+        box-shadow: var(--card-shadow);
+        transition: all 0.2s;
+      }
+
+      .action-item span {
+        font-size: 0.75rem;
+        font-weight: 500;
+        text-align: center;
+      }
+
+      /* Color variations for buttons */
+      .btn-input {
+        background: #ecfdf5;
+        color: #059669;
+      }
+      .btn-jual {
+        background: #eff6ff;
+        color: #2563eb;
+      }
+      .btn-stok {
+        background: #fff7ed;
+        color: #ea580c;
+      }
+      .btn-panen {
+        background: #fef2f2;
+        color: #dc2626;
+      }
+
+      /* LIST HISTORY */
+      .history-card {
+        background: white;
+        border-radius: 16px;
+        padding: 15px;
+        margin-bottom: 12px;
+        box-shadow: var(--card-shadow);
+        border-left: 4px solid var(--primary-color);
+      }
+
+      /* BOTTOM NAV */
+      .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 12px 20px 25px;
+        box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
+        display: flex;
+        justify-content: space-around;
+        z-index: 1000;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+      }
+
+      .nav-btn {
+        flex: 1;
+        text-align: center;
+        color: #9ca3af;
+        text-decoration: none;
+        font-size: 0.75rem;
+        transition: color 0.3s;
+      }
+
+      .nav-btn i {
+        font-size: 1.3rem;
+        margin-bottom: 4px;
+        display: block;
+      }
+      .nav-btn.active {
+        color: var(--primary-color);
+        font-weight: 600;
+      }
+
+      /* FAB (Floating Action Button) */
+      .fab {
+        position: fixed;
+        bottom: 95px;
+        right: 20px;
+        width: 58px;
+        height: 58px;
+        background: var(--primary-gradient);
+        color: white;
+        border-radius: 50%;
+        border: none;
+        box-shadow: 0 4px 15px rgba(5, 150, 105, 0.4);
+        font-size: 24px;
+        z-index: 999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.2s;
+      }
+      .fab:active {
+        transform: scale(0.9);
+      }
+
+      /* FORM MODALS */
+      .form-control,
+      .form-select {
+        border-radius: 12px;
+        padding: 12px;
+        border: 1px solid #e5e7eb;
+        background-color: #f9fafb;
+      }
+      .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+        background-color: white;
+      }
+      .modal-content {
+        border-radius: 24px;
+        border: none;
+      }
+      .modal-header {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+      .btn-primary {
+        background: var(--primary-gradient);
+        border: none;
+        border-radius: 12px;
+        padding: 12px;
+        font-weight: 600;
+      }
+    </style>
+  <script defer src="main.bundle.js"></script><link href="main.css" rel="stylesheet"></head>
+  <body>
+    <div id="loading" class="text-center py-5">
+      <div class="spinner-border text-success" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <!-- No Cycle View -->
+    <div id="no-cycle-view" class="d-none">
+      <div
+        class="mobile-header text-center"
+        style="
+          height: 100vh;
+          border-radius: 0;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        "
+      >
+        <div
+          class="mb-4 bg-white p-4 rounded-circle"
+          style="
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <i class="fas fa-kiwi-bird fa-3x text-success"></i>
+        </div>
+        <h2 class="fw-bold mb-2">Belum Ada Siklus</h2>
+        <p class="opacity-75 mb-4">Kandang Anda sedang kosong saat ini.</p>
+
+        <button
+          class="btn btn-light text-success fw-bold px-4 py-3 rounded-pill shadow-lg w-75"
+          data-bs-toggle="modal"
+          data-bs-target="#modalMulai"
+        >
+          <i class="fas fa-plus me-2"></i> Mulai Ternak Baru
+        </button>
+
+        <div class="mt-5">
+          <a href="#" class="text-white text-decoration-none opacity-75 small">
+            <i class="fas fa-history me-1"></i> Lihat Riwayat Panen
+          </a>
+          <span class="mx-2">|</span>
+          <a
+            href="#"
+            id="logout-btn-1"
+            class="text-white text-decoration-none opacity-75 small"
+            >Logout</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Cycle View -->
+    <div id="active-cycle-view" class="d-none">
+      <div class="mobile-header">
+        <div class="header-top">
+          <div class="d-flex align-items-center">
+            <div class="bg-white rounded-circle p-2 me-2 text-success">
+              <i class="fas fa-kiwi-bird"></i>
+            </div>
+            <span class="fw-bold">AyamPintar</span>
+          </div>
+          <div>
+            <a href="#" id="logout-btn-2" class="text-white opacity-75"
+              ><i class="fas fa-sign-out-alt fa-lg"></i
+            ></a>
+          </div>
+        </div>
+
+        <div class="header-info mt-3">
+          <h1 class="mb-0 fw-bold" id="kandang-name">Nama Kandang</h1>
+          <div class="d-flex gap-2">
+            <span class="header-chip"
+              ><i class="fas fa-calendar-day me-1"></i> Hari ke-<span
+                id="umur-hari"
+                >0</span
+              ></span
+            >
+            <span class="header-chip"
+              ><i class="fas fa-paw me-1"></i>
+              <span id="populasi-hidup">0</span> Ekor</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="content-overlap">
+        <div class="stat-grid">
+          <div class="stat-card">
+            <i class="fas fa-chart-line stat-icon"></i>
+            <div class="stat-label">FCR (Rasio)</div>
+            <div class="stat-value text-primary" id="stat-fcr">0</div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-trophy stat-icon"></i>
+            <div class="stat-label">Indeks (IP)</div>
+            <div class="stat-value text-success" id="stat-ip">0</div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-weight-hanging stat-icon"></i>
+            <div class="stat-label">Bobot (BW)</div>
+            <div class="stat-value text-warning">
+              <span id="stat-bw">0</span>
+              <small style="font-size: 0.8rem">kg</small>
+            </div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-cubes stat-icon"></i>
+            <div class="stat-label">Sisa Pakan</div>
+            <div class="stat-value text-danger">
+              <span id="stat-sisa-pakan">0</span>
+              <small style="font-size: 0.8rem">kg</small>
+              <div
+                style="
+                  font-size: 0.65rem;
+                  opacity: 0.7;
+                  font-weight: normal;
+                  margin-top: -2px;
+                "
+              >
+                Est. <span id="stat-sisa-sak">0</span> Sak
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="omzet-card">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <span class="small opacity-75">Estimasi Penjualan</span>
+            <i class="fas fa-wallet opacity-50"></i>
+          </div>
+          <h2 class="fw-bold mb-3">Rp <span id="sales-omzet">0</span></h2>
+          <div
+            class="row g-2 border-top border-secondary pt-3 mt-2"
+            style="border-color: rgba(255, 255, 255, 0.1) !important"
+          >
+            <div class="col-6">
+              <small
+                class="d-block opacity-75 text-uppercase"
+                style="font-size: 0.65rem"
+                >Terjual (Ekor)</small
+              >
+              <span class="fw-bold" id="sales-ekor">0</span>
+            </div>
+            <div class="col-6">
+              <small
+                class="d-block opacity-75 text-uppercase"
+                style="font-size: 0.65rem"
+                >Terjual (KG)</small
+              >
+              <span class="fw-bold" id="sales-kg">0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-section-title">
+          <i class="fas fa-bolt me-2 text-warning"></i> Aksi Cepat
+        </div>
+        <div class="action-grid">
+          <a
+            href="#"
+            class="action-item"
+            data-bs-toggle="modal"
+            data-bs-target="#modalInput"
+          >
+            <div class="action-btn-circle btn-input">
+              <i class="fas fa-pen"></i>
+            </div>
+            <span>Input</span>
+          </a>
+          <a
+            href="#"
+            class="action-item"
+            data-bs-toggle="modal"
+            data-bs-target="#modalJual"
+          >
+            <div class="action-btn-circle btn-jual">
+              <i class="fas fa-coins"></i>
+            </div>
+            <span>Jual</span>
+          </a>
+          <a
+            href="#"
+            class="action-item"
+            data-bs-toggle="modal"
+            data-bs-target="#modalStok"
+          >
+            <div class="action-btn-circle btn-stok">
+              <i class="fas fa-box-open"></i>
+            </div>
+            <span>Stok</span>
+          </a>
+          <a href="#" class="action-item">
+            <div class="action-btn-circle btn-panen">
+              <i class="fas fa-file-invoice"></i>
+            </div>
+            <span>BTPA</span>
+          </a>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div class="action-section-title mb-0">
+            <i class="fas fa-history me-2 text-primary"></i> 5 Hari Terakhir
+          </div>
+          <a href="#" class="text-decoration-none small text-primary fw-bold"
+            >Semua</a
+          >
+        </div>
+
+        <div id="history-list">
+          <!-- History items will be injected here -->
+        </div>
+
+        <div class="mt-4 mb-3 text-center">
+          <button
+            class="btn btn-outline-danger w-100 rounded-pill"
+            id="close-cycle-btn"
+            data-bs-toggle="modal"
+            data-bs-target="#modalTutup"
+          >
+            <i class="fas fa-lock me-2"></i> Tutup Siklus / Panen Raya
+          </button>
+        </div>
+
+        <button class="fab" data-bs-toggle="modal" data-bs-target="#modalInput">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="bottom-nav">
+      <a href="#" class="nav-btn active">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="#" class="nav-btn">
+        <i class="fas fa-money-bill-wave"></i>
+        <span>Jual</span>
+      </a>
+      <a href="#" class="nav-btn">
+        <i class="fas fa-clipboard-list"></i>
+        <span>Laporan</span>
+      </a>
+      <a href="#" class="nav-btn">
+        <i class="fas fa-clock"></i>
+        <span>Riwayat</span>
+      </a>
+    </div>
+
+    <!-- Modal Input Harian -->
+    <div class="modal fade" id="modalInput">
+      <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title fw-bold">Input Harian</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <form id="formInputHarian">
+              <div class="mb-3">
+                <label class="form-label small text-muted fw-bold"
+                  >TANGGAL</label
+                >
+                <input
+                  type="date"
+                  name="tanggal"
+                  id="input-tanggal"
+                  class="form-control form-control-lg"
+                  required
+                />
+              </div>
+              <div class="row g-3 mb-3">
+                <div class="col-6">
+                  <label class="form-label small text-muted fw-bold"
+                    >MATI (Ekor)</label
+                  >
+                  <input
+                    type="tel"
+                    name="mati"
+                    class="form-control form-control-lg"
+                    placeholder="0"
+                    required
+                  />
+                </div>
+                <div class="col-6">
+                  <label class="form-label small text-muted fw-bold"
+                    >BW RATA2 (Kg)</label
+                  >
+                  <input
+                    type="number"
+                    step="0.001"
+                    name="bw"
+                    class="form-control form-control-lg"
+                    placeholder="0.000"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label small text-muted fw-bold"
+                  >PAKAN TERPAKAI (Sak)</label
+                >
+                <input
+                  type="number"
+                  step="0.01"
+                  name="pakan"
+                  class="form-control form-control-lg"
+                  placeholder="0.00"
+                  required
+                />
+              </div>
+              <div class="mb-4">
+                <label class="form-label small text-muted fw-bold"
+                  >OBAT / VITAMIN (Opsional)</label
+                >
+                <input
+                  type="text"
+                  name="obat"
+                  class="form-control form-control-lg"
+                  placeholder="Contoh: Vita Stress"
+                />
+              </div>
+              <button type="submit" class="btn btn-primary w-100 py-3 shadow">
+                SIMPAN DATA
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Stok -->
+    <div class="modal fade" id="modalStok">
+      <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title fw-bold">Tambah Stok Gudang</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <form id="formStok">
+              <div class="mb-3">
+                <label class="form-label small text-muted fw-bold"
+                  >TANGGAL MASUK</label
+                >
+                <input
+                  type="date"
+                  name="tanggal"
+                  id="stok-tanggal"
+                  class="form-control"
+                />
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label small text-muted fw-bold"
+                  >JENIS STOK</label
+                >
+                <div class="btn-group w-100" role="group">
+                  <input
+                    type="radio"
+                    class="btn-check"
+                    name="jenis"
+                    id="optPakan"
+                    value="pakan"
+                    checked
+                  />
+                  <label class="btn btn-outline-success" for="optPakan"
+                    >Pakan</label
+                  >
+
+                  <input
+                    type="radio"
+                    class="btn-check"
+                    name="jenis"
+                    id="optObat"
+                    value="obat"
+                  />
+                  <label class="btn btn-outline-info" for="optObat"
+                    >Obat/OVK</label
+                  >
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label small text-muted fw-bold"
+                  >NAMA BARANG</label
+                >
+                <input
+                  type="text"
+                  name="nama_item"
+                  class="form-control"
+                  placeholder="Cth: BR1 Comfeed"
+                />
+              </div>
+
+              <div class="row g-2 mb-3">
+                <div class="col-5">
+                  <label class="form-label small text-muted fw-bold"
+                    >SATUAN</label
+                  >
+                  <select name="unit" id="unitSelect" class="form-select">
+                    <option value="kg">KG</option>
+                    <option value="sak">SAK (50kg)</option>
+                  </select>
+                </div>
+                <div class="col-7">
+                  <label class="form-label small text-muted fw-bold"
+                    >JUMLAH</label
+                  >
+                  <input
+                    type="number"
+                    step="0.01"
+                    name="jumlah"
+                    id="jumlahStok"
+                    class="form-control"
+                    placeholder="0"
+                  />
+                </div>
+              </div>
+
+              <div
+                class="alert alert-warning small py-2"
+                id="stokConvert"
+                style="display: none"
+              >
+                <i class="fas fa-calculator me-1"></i> Konversi:
+                <strong><span id="totalKg">0</span> KG</strong>
+              </div>
+
+              <button
+                type="submit"
+                class="btn btn-success w-100 py-3 shadow mt-3"
+              >
+                TAMBAH KE GUDANG
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Jual -->
+    <div class="modal fade" id="modalJual">
+      <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title fw-bold">Catat Penjualan</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <form id="formJual">
+              <div class="mb-3">
+                <label class="form-label small text-muted fw-bold"
+                  >TANGGAL</label
+                >
+                <input
+                  type="date"
+                  name="tanggal"
+                  id="jual-tanggal"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label small text-muted fw-bold"
+                  >PEMBELI</label
+                >
+                <input
+                  type="text"
+                  name="pembeli"
+                  class="form-control"
+                  placeholder="Nama Pembeli"
+                  required
+                />
+              </div>
+              <div class="row g-2 mb-3">
+                <div class="col-6">
+                  <label class="form-label small text-muted fw-bold"
+                    >JUMLAH (Ekor)</label
+                  >
+                  <input type="tel" name="ekor" class="form-control" required />
+                </div>
+                <div class="col-6">
+                  <label class="form-label small text-muted fw-bold"
+                    >BERAT TOTAL (Kg)</label
+                  >
+                  <input
+                    type="number"
+                    step="0.01"
+                    name="berat"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label small text-muted fw-bold"
+                  >HARGA PER KG</label
+                >
+                <input
+                  type="number"
+                  name="harga_kg"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <button type="submit" class="btn btn-primary w-100 py-3 shadow">
+                SIMPAN PENJUALAN
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Tutup Siklus -->
+    <div class="modal fade" id="modalTutup">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title fw-bold text-danger">Tutup Siklus</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <p class="text-muted small">
+              Tindakan ini akan mengakhiri periode ternak saat ini. Pastikan
+              semua data penjualan sudah tercatat.
+            </p>
+            <form id="formTutupSiklus">
+              <div class="mb-3">
+                <label class="form-label">Tanggal Selesai</label>
+                <input
+                  type="date"
+                  name="tgl_selesai"
+                  id="tutup-tanggal"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Catatan Akhir</label>
+                <textarea
+                  name="catatan"
+                  class="form-control"
+                  rows="3"
+                ></textarea>
+              </div>
+              <button type="submit" class="btn btn-danger w-100 py-3">
+                KONFIRMASI TUTUP SIKLUS
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Mulai Siklus -->
+    <div class="modal fade" id="modalMulai">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title fw-bold">Mulai Periode Baru</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <form id="formMulaiSiklus">
+              <div class="mb-3">
+                <label class="form-label">Nama Kandang</label>
+                <input
+                  type="text"
+                  name="kandang"
+                  class="form-control"
+                  placeholder="Contoh: Kandang 01"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Tanggal DOC Masuk</label>
+                <input
+                  type="date"
+                  name="tgl_mulai"
+                  id="mulai-tanggal"
+                  class="form-control"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Populasi Awal (Ekor)</label>
+                <input
+                  type="tel"
+                  name="populasi"
+                  class="form-control"
+                  placeholder="Jumlah bibit ayam"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Stok Pakan Awal</label>
+                <div class="input-group">
+                  <input
+                    type="number"
+                    step="0.01"
+                    name="stok_pakan"
+                    class="form-control"
+                    placeholder="0"
+                    required
+                  />
+                  <select
+                    name="satuan_pakan"
+                    class="form-select"
+                    style="max-width: 100px"
+                  >
+                    <option value="sak" selected>SAK</option>
+                    <option value="kg">KG</option>
+                  </select>
+                </div>
+                <div class="form-text small text-muted">
+                  <i class="fas fa-info-circle me-1"></i> 1 Sak = 50 Kg
+                  (Otomatis dikonversi)
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary w-100 py-3">
+                MULAI PERIODE
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JS Bundled via Webpack -->
+    <!-- JS Bundled via Webpack -->
+  </body>
+</html>
