@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: "./src/frontend/js/app.js",
@@ -38,6 +39,15 @@ module.exports = {
       template: "./src/frontend/public/login.html",
       filename: "login.html",
       minify: false,
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: "./src/frontend/public/manifest.json", to: "manifest.json" },
+        {
+          from: "./src/frontend/js/service-worker.js",
+          to: "service-worker.js",
+        },
+      ],
     }),
   ],
 };
